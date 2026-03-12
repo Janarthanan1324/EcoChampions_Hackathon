@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | EcoChampions</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="dashboard-page">
+    
+    <nav class="navbar">
+        <div class="logo">🌿 EcoChampions</div>
+        <div class="nav-links">
+            <a href="/leaderboard">Leaderboard</a>
+            <a href="/logout" class="logout">Logout</a>
+        </div>
+    </nav>
+
+    <main class="dashboard-container">
+        <section class="profile-card">
+            <img src="https://api.dicebear.com/7.x/bottts/svg?seed={{ username }}" alt="Avatar" class="avatar">
+            <h2>Welcome, {{ username }}!</h2>
+            <div class="stats">
+                <div class="stat-box">
+                    <h3>Level</h3>
+                    <p>1</p>
+                </div>
+                <div class="stat-box">
+                    <h3>Leaf Points</h3>
+                    <!-- THIS NOW PULLS FROM THE DATABASE! -->
+                    <p id="total-points">{{ points }}</p> 
+                </div>
+            </div>
+        </section>
+
+        <section class="action-card">
+            <h3>🌍 Daily Real-World Action</h3>
+            <p>Did you do something green today? Claim your bonus points!</p>
+            <button class="btn-secondary" onclick="claimDailyPoints()" id="daily-btn">I used a reusable water bottle today (+50 pts)</button>
+            <p id="action-msg" style="color: #00b894; font-weight: bold; margin-top: 10px; display: none;">Awesome! Real-world impact logged.</p>
+        </section>
+
+        <section class="missions-card">
+            <h3>🎮 Your Missions</h3>
+            <p>Complete learning modules to test your knowledge and earn points.</p>
+            <br>
+            <a href="/missions" class="btn-primary">Play Missions</a>
+        </section>
+    </main>
+
+    <script>
+        function claimDailyPoints() {
+            // Give 50 points and send it to the database
+            fetch('/api/save_score', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ score: 50 })
+            }).then(() => {
+                document.getElementById('action-msg').style.display = 'block';
+                document.getElementById('daily-btn').disabled = true;
+                // Update the visual number
+                let currentPoints = parseInt(document.getElementById('total-points').innerText);
+                document.getElementById('total-points').innerText = currentPoints + 50;
+            });
+        }
+    </script>
+</body>
+</html>

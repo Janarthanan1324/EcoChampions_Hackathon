@@ -1,0 +1,427 @@
+/* =========================================================
+   ECOCHAMPIONS - MASTER STYLESHEET
+   ========================================================= */
+
+/* --- 1. Global Setup & Variables --- */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap');
+
+:root {
+    --primary: #00b894;       /* Mint Green */
+    --primary-dark: #008f73;
+    --secondary: #fdcb6e;     /* Warm Yellow */
+    --secondary-dark: #e1b12c;
+    --accent: #ff7675;        /* Soft Red */
+    --bg-color: #f4fcf4;      /* Very light green */
+    --text-dark: #2d3436;
+    --text-light: #636e72;
+    --white: #ffffff;
+    --shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Nunito', sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+/* --- 2. Animations --- */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+@keyframes popIn {
+    0% { transform: scale(0.95); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes slideUp {
+    0% { transform: translateY(20px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+
+/* --- 3. 3D Gaming Buttons --- */
+.btn-primary, .btn-secondary {
+    display: inline-block;
+    padding: 12px 28px;
+    font-size: 18px;
+    font-weight: 900;
+    text-decoration: none;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    width: 100%; /* Default to full width for forms */
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: var(--white);
+    box-shadow: 0 6px 0 var(--primary-dark);
+}
+
+.btn-primary:hover {
+    background-color: #00d2a9;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 0 var(--primary-dark);
+}
+
+.btn-primary:active {
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 var(--primary-dark);
+}
+
+.btn-secondary {
+    background-color: var(--secondary);
+    color: var(--text-dark);
+    box-shadow: 0 6px 0 var(--secondary-dark);
+}
+
+.btn-secondary:hover {
+    background-color: #ffe093;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 0 var(--secondary-dark);
+}
+
+.btn-secondary:active {
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 var(--secondary-dark);
+}
+
+/* --- 4. Landing Page & Auth Forms --- */
+.landing-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #55efc4 0%, #00b894 100%);
+    padding: 20px;
+}
+
+.hero-container {
+    background: var(--white);
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    animation: popIn 0.5s ease forwards;
+}
+
+.hero-container h1 {
+    font-size: 3rem;
+    color: var(--primary-dark);
+    margin-bottom: 10px;
+    font-weight: 900;
+    letter-spacing: -1px;
+}
+
+.hero-container p {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    margin-bottom: 25px;
+}
+
+.auth-forms-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: #f8fdfb;
+    padding: 25px;
+    border-radius: 15px;
+    border: 1px solid #e1f5ec;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.auth-form h3 {
+    color: var(--primary-dark);
+    font-size: 1.3rem;
+    margin-bottom: 5px;
+}
+
+.auth-form input {
+    padding: 14px 15px;
+    border-radius: 10px;
+    border: 2px solid #dfe6e9;
+    font-size: 1rem;
+    background: var(--white);
+    transition: all 0.3s;
+}
+
+.auth-form input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(0, 184, 148, 0.15);
+}
+
+.divider {
+    text-align: center;
+    position: relative;
+    margin: 5px 0;
+}
+
+.divider::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #e1f5ec;
+    z-index: 1;
+}
+
+.divider span {
+    background: #f8fdfb;
+    padding: 0 15px;
+    color: #b2bec3;
+    font-weight: 900;
+    position: relative;
+    z-index: 2;
+}
+
+/* --- 5. Navbar --- */
+.navbar {
+    background: var(--white);
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar .logo {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--primary-dark);
+}
+
+.navbar .nav-links a {
+    color: var(--text-light);
+    text-decoration: none;
+    margin-left: 25px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    transition: color 0.3s;
+}
+
+.navbar .nav-links a:hover {
+    color: var(--primary);
+}
+
+.navbar .logout {
+    color: var(--accent) !important;
+}
+
+/* --- 6. Dashboard & Cards --- */
+.dashboard-page {
+    /* Subtle dotted background pattern */
+    background-image: radial-gradient(#d1eadd 2px, transparent 2px);
+    background-size: 30px 30px;
+}
+
+.dashboard-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px;
+    display: grid;
+    gap: 25px;
+}
+
+.profile-card, .action-card, .missions-card, .quiz-container {
+    background: var(--white);
+    padding: 35px;
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    text-align: center;
+    border: 2px solid transparent;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    animation: slideUp 0.5s ease forwards;
+}
+
+.profile-card:hover, .action-card:hover, .missions-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(0, 184, 148, 0.3);
+}
+
+.avatar {
+    width: 120px;
+    height: 120px;
+    background-color: #e8f8f5;
+    border-radius: 50%;
+    margin-bottom: 15px;
+    border: 5px solid var(--secondary);
+    box-shadow: 0 10px 20px rgba(253, 203, 110, 0.3);
+    animation: float 4s ease-in-out infinite;
+}
+
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    margin-top: 20px;
+}
+
+.stat-box h3 {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.stat-box p {
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--primary);
+    text-shadow: 2px 2px 0px rgba(0, 184, 148, 0.2);
+}
+
+/* --- 7. Quiz Engine (missions.html) --- */
+.quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8fdfb;
+    padding: 15px 25px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    border: 2px solid #e1f5ec;
+}
+
+.topic-title {
+    color: var(--text-light);
+    font-size: 1.3rem;
+    font-weight: 900;
+}
+
+.score-board {
+    font-weight: 900;
+    font-size: 1.5rem;
+    color: var(--white);
+    background: var(--primary);
+    padding: 8px 25px;
+    border-radius: 30px;
+    box-shadow: 0 4px 10px rgba(0, 184, 148, 0.3);
+}
+
+.question-text {
+    font-size: 1.8rem;
+    color: var(--text-dark);
+    margin-bottom: 30px;
+    font-weight: 900;
+}
+
+.options-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+
+.option-btn {
+    background: var(--white);
+    border: 3px solid #dfe6e9;
+    padding: 18px 25px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    border-radius: 12px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--text-dark);
+}
+
+.option-btn:hover:not(:disabled) {
+    border-color: var(--primary);
+    background: #e8f8f5;
+    transform: translateX(10px);
+}
+
+.option-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.95;
+}
+
+.fact-box {
+    margin-top: 30px;
+    background: #fff9e6;
+    border: 3px solid var(--secondary);
+    padding: 25px;
+    border-radius: 15px;
+    text-align: left;
+    animation: popIn 0.4s ease;
+}
+
+.fact-box h4 {
+    color: var(--secondary-dark);
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    font-weight: 900;
+}
+
+.fact-box p {
+    font-size: 1.1rem;
+    color: var(--text-dark);
+}
+
+/* --- 8. Leaderboard Table --- */
+.leaderboard-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    margin-top: 20px;
+}
+
+.leaderboard-table th {
+    background-color: transparent;
+    color: var(--text-light);
+    font-weight: 900;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    border-bottom: 2px solid #e1f5ec;
+}
+
+.leaderboard-table td {
+    padding: 18px 20px;
+    background: #f8fdfb;
+    border-top: 2px solid #e1f5ec;
+    border-bottom: 2px solid #e1f5ec;
+    font-size: 1.1rem;
+}
+
+.leaderboard-table td:first-child {
+    border-left: 2px solid #e1f5ec;
+    border-radius: 12px 0 0 12px;
+}
+
+.leaderboard-table td:last-child {
+    border-right: 2px solid #e1f5ec;
+    border-radius: 0 12px 12px 0;
+}
+
+.leaderboard-table tr:hover td {
+    background-color: #e8f8f5;
+    border-color: #b5e3d0;
+}
+
+/* Rank Highlights */
+.rank-1 { font-weight: 900; color: #f39c12; font-size: 1.4rem; } 
+.rank-2 { font-weight: 900; color: #bdc3c7; font-size: 1.3rem;} 
+.rank-3 { font-weight: 900; color: #d35400; font-size: 1.2rem;}

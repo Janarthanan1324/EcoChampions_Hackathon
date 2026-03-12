@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play Missions | EcoChampions</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="dashboard-page">
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">🌿 EcoChampions</div>
+        <div class="nav-links">
+            <a href="/dashboard">Dashboard</a>
+            <a href="/leaderboard">Leaderboard</a>
+            <a href="/logout" class="logout">Logout</a>
+        </div>
+    </nav>
+
+    <main class="dashboard-container">
+        <div class="quiz-container" id="quiz-container">
+            
+            <!-- 1. Loading State -->
+            <div id="loading">
+                <h2 style="color: var(--primary);">Preparing Mission...</h2>
+                <p>Connecting to Eco-Database...</p>
+            </div>
+            
+            <!-- 2. The Active Quiz Interface -->
+            <div id="quiz-content" style="display: none;">
+                <div class="quiz-header">
+                    <h3 id="topic-title" class="topic-title">Mission Loading...</h3>
+                    <div class="score-board">Mission Score: <span id="current-score">0</span></div>
+                </div>
+                
+                <h2 id="question-text" class="question-text">Question goes here?</h2>
+                
+                <div class="options-grid">
+                    <button class="option-btn" onclick="checkAnswer('A')" id="btn-A">Option A</button>
+                    <button class="option-btn" onclick="checkAnswer('B')" id="btn-B">Option B</button>
+                    <button class="option-btn" onclick="checkAnswer('C')" id="btn-C">Option C</button>
+                    <button class="option-btn" onclick="checkAnswer('D')" id="btn-D">Option D</button>
+                </div>
+
+                <!-- Fun Fact / Feedback Popup -->
+                <div id="fact-box" class="fact-box" style="display: none;">
+                    <h4 id="fact-header">Correct! 💡</h4>
+                    <p id="fun-fact-text">Did you know text goes here.</p>
+                    <button class="btn-primary" onclick="nextQuestion()" style="margin-top: 20px; width: auto;">Next Question ➔</button>
+                </div>
+            </div>
+
+            <!-- 3. End of Mission Screen -->
+            <div id="end-screen" style="display: none; text-align: center;">
+                <div class="avatar" style="margin: 0 auto 20px auto; border-color: var(--primary);">🏆</div>
+                <h2 style="font-size: 2.5rem; color: var(--primary-dark);">Mission Accomplished!</h2>
+                <p style="font-size: 1.2rem; margin-bottom: 20px;">You've made the planet a little greener today.</p>
+                <div style="background: #f8fdfb; padding: 20px; border-radius: 15px; border: 2px dashed var(--primary); margin-bottom: 30px;">
+                    <p style="text-transform: uppercase; letter-spacing: 1px; font-weight: bold; color: var(--text-light);">Points Added to Profile</p>
+                    <span id="final-score" style="font-size: 3.5rem; font-weight: 900; color: var(--primary);">0</span>
+                </div>
+                <a href="/dashboard" class="btn-primary" style="width: auto; padding: 15px 40px;">Back to Dashboard</a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let questions = [];
+        let currentQuestionIndex = 0;
+        let sessionScore = 0;
+
+        // Fetch questions from Python API on load
+        window.onload = async function() {
+            try {
+                const response = await fetch('/api/questions');
+                questions = await response.json();
+                
+                if(questions.length === 0) {
+                    document.getElementById('loading').innerHTML = "<h2 style='color:red;'>Dataset Error!</h2><p>Check quiz_questions.csv</p>";
+                    return;
+                }
+
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('quiz-content').style.display = 'block';
+                loadQuestion();
+            } catch (error) {
+                document.getElementById('loading').innerHTML = "<h2 style='color:red;'>Connection Lost!</h2><p>Is the Flask server running?</p>";
+            }
+        };
+
+        function loadQuestion() {
+            document.getElementById('fact-box').style.display = 'none';
+            let btns = document.getElementsByClassName('option-btn');
+            
+            // Reset button styles
+            for(let btn of btns) {
+                btn.disabled = false;
+                btn.style.backgroundColor = 'white';
+                btn.style.borderColor = '#dfe6e9';
+                btn.style.color = 'var(--text-dark)';
+            }
+
+            let q = questions[currentQuestionIndex];
+            document.getElementById('topic-title').innerText = "Topic: " + q.topic;
+            document.getElementById('question-text').innerText = q.question;
+            document.getElementById('btn-A').innerText = q.option_a;
+            document.getElementById('btn-B').innerText = q.option_b;
+            document.getElementById('btn-C').innerText = q.option_c;
+            document.getElementById('btn-D').innerText = q.option_d;
+        }
+
+        function checkAnswer(selectedOption) {
+            let q = questions[currentQuestionIndex];
+            let isCorrect = (selectedOption === q.correct_answer);
+            
+            // Disable all buttons
+            let btns = document.getElementsByClassName('option-btn');
+            for(let btn of btns) { btn.disabled = true; }
+
+            let selectedBtn = document.getElementById('btn-' + selectedOption);
+            let correctBtn = document.getElementById('btn-' + q.correct_answer);
+
+            if (isCorrect) {
+                selectedBtn.style.backgroundColor = 'var(--primary)';
+                selectedBtn.style.borderColor = 'var(--primary-dark)';
+                selectedBtn.style.color = 'white';
+                sessionScore += parseInt(q.points);
+                document.getElementById('current-score').innerText = sessionScore;
+                document.getElementById('fact-header').innerText = "Correct! 🌟";
+            } else {
+                selectedBtn.style.backgroundColor = 'var(--accent)';
+                selectedBtn.style.borderColor = '#d63031';
+                selectedBtn.style.color = 'white';
+                correctBtn.style.backgroundColor = 'var(--primary)';
+                correctBtn.style.color = 'white';
+                document.getElementById('fact-header').innerText = "Not quite! 💡";
+            }
+
+            document.getElementById('fun-fact-text').innerText = q.fun_fact;
+            document.getElementById('fact-box').style.display = 'block';
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                // Game Over - Show end screen
+                document.getElementById('quiz-content').style.display = 'none';
+                document.getElementById('end-screen').style.display = 'block';
+                document.getElementById('final-score').innerText = sessionScore;
+
+                // SAVE TO DATABASE via API
+                fetch('/api/save_score', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ score: sessionScore })
+                })
+                .then(response => response.json())
+                .then(data => console.log('Score saved:', data))
+                .catch(err => console.error('Save failed:', err));
+            }
+        }
+    </script>
+</body>
+</html>

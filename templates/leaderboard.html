@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Leaderboard | EcoChampions</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        /* A little extra CSS just for the leaderboard table */
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .leaderboard-table th, .leaderboard-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 2px solid #e1f5ec;
+            font-size: 1.1rem;
+        }
+        .leaderboard-table th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 900;
+        }
+        .leaderboard-table tr:hover {
+            background-color: #f4fcf4;
+        }
+        .rank-1 { font-weight: 900; color: #f1c40f; font-size: 1.3rem; } /* Gold */
+        .rank-2 { font-weight: bold; color: #bdc3c7; } /* Silver */
+        .rank-3 { font-weight: bold; color: #cd7f32; } /* Bronze */
+    </style>
+</head>
+<body class="dashboard-page">
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">🌿 EcoChampions</div>
+        <div class="nav-links">
+            <a href="/dashboard">Dashboard</a>
+            <a href="/missions">Play Missions</a>
+        </div>
+    </nav>
+
+    <main class="dashboard-container">
+        <section class="action-card" style="animation: popIn 0.6s ease;">
+            <h2 style="font-size: 2.5rem; color: var(--primary-dark); margin-bottom: 10px;">🏆 Global Leaderboard</h2>
+            <p style="color: var(--text-light); margin-bottom: 30px;">See how you rank against other Eco-Agents across all schools!</p>
+
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Agent Name</th>
+                        <th>School</th>
+                        <th>Leaf Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dummy data to show the judges how it works -->
+                    <tr>
+                        <td class="rank-1">🥇 1</td>
+                        <td><strong>EcoWarrior99</strong></td>
+                        <td>Green Valley High</td>
+                        <td style="color: var(--primary); font-weight: bold;">1,250</td>
+                    </tr>
+                    <tr>
+                        <td class="rank-2">🥈 2</td>
+                        <td><strong>PlanetSaver_Alex</strong></td>
+                        <td>Techwood Academy</td>
+                        <td style="color: var(--primary); font-weight: bold;">1,120</td>
+                    </tr>
+                    <tr>
+                        <td class="rank-3">🥉 3</td>
+                        <td><strong>RecycleQueen</strong></td>
+                        <td>Green Valley High</td>
+                        <td style="color: var(--primary); font-weight: bold;">980</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>SolarKid</td>
+                        <td>Sunrise Public School</td>
+                        <td>845</td>
+                    </tr>
+                    <tr style="background-color: #e8f8f5;">
+                        <td><strong>12</strong></td>
+                        <td><strong>You (Eco-Agent)</strong></td>
+                        <td>Your College</td>
+                        <td id="user-score"><strong>0</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <script>
+        // A tiny script to try and pull their score from local storage if we had it, 
+        // but for the prototype, we just let them know they are on the board!
+    </script>
+</body>
+</html>

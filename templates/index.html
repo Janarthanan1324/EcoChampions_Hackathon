@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoChampions | Save the Planet</title>
+    <!-- Link to our gamified CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="landing-page">
+    <div class="hero-container">
+        <h1>🌿 EcoChampions</h1>
+        <p>The Earth needs heroes. Learn, play, and take real-world action to save our planet.</p>
+        
+        <div class="auth-forms-container">
+            <!-- 1. LOGIN FORM (Sends data to @app.route('/login')) -->
+            <form action="/login" method="POST" class="auth-form">
+                <h3>Agent Login</h3>
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <!-- type="submit" is what sends the POST request to Python -->
+                <button type="submit" class="btn-primary">Login 🚀</button>
+            </form>
+
+            <div class="divider"><span>OR</span></div>
+
+            <!-- 2. SIGNUP FORM (Sends data to @app.route('/signup')) -->
+            <form action="/signup" method="POST" class="auth-form">
+                <h3>New Agent? Sign Up</h3>
+                <input type="text" name="username" placeholder="Choose a Username" required>
+                <input type="password" name="password" placeholder="Create a Password" required>
+                <button type="submit" class="btn-secondary">Register Account</button>
+            </form>
+        </div>
+        
+        <p style="margin-top: 20px; font-size: 0.9rem; color: var(--text-light);">
+            Sensitivity: LNT Construction Internal Use
+        </p>
+    </div>
+
+    <!-- Script to clear cache issues if user is already logged in -->
+    <script>
+        // If the server redirected here because of a failed login, 
+        // you could add a simple alert here if needed.
+    </script>
+</body>
+</html>
